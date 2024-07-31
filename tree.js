@@ -21,8 +21,35 @@ export class Tree {
     let root = new Node(array[middle]);
     root.left = this.buildTree(array.slice(0, middle));
     root.right = this.buildTree(array.slice(middle + 1, array.length));
+
     return root;
   }
+
+  // Insert the given value
+  insert(value) {
+    let test = Object.assign({}, this);
+    Object.setPrototypeOf(test, this);
+
+    if (value === this.root.data); // If value is already in tree, return
+    if (value < this.root.data) {
+      if (!this.root.left) {
+        this.root.left = new Node(value);
+      } else {
+        test.root = this.root.left;
+        test.insert(value);
+      }
+    } else if (value > this.root.data) {
+      if (!this.root.right) {
+        this.root.right = new Node(value);
+      } else {
+        test.root = this.root.right;
+        test.insert(value);
+      }
+    }
+  }
+
+  // Delete the given value
+  deleteItem(value) {}
 }
 
 // Visualize the binary search tree
@@ -42,5 +69,11 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 // let test = new Tree([1, 2, 3]);
 let test = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(test.root);
-console.log(JSON.stringify(test.root));
 // console.log(test);
+test.insert(60);
+test.insert(80);
+test.insert(2);
+// console.log(JSON.stringify(test));
+prettyPrint(test.root);
+test.insert(2);
+prettyPrint(test.root);
