@@ -30,26 +30,70 @@ export class Tree {
     let test = Object.assign({}, this);
     Object.setPrototypeOf(test, this);
 
-    if (value === this.root.data); // If value is already in tree, return
+    if (this.root === null) {
+      return new Node(value);
+    }
     if (value < this.root.data) {
-      if (!this.root.left) {
-        this.root.left = new Node(value);
+      test.root = this.root.left;
+      this.root.left = test.insert(value);
+    } else if (value > this.root.data) {
+      test.root = this.root.right;
+      this.root.right = test.insert(value);
+    }
+
+    return this.root;
+  }
+
+  // Delete the given value
+  deleteItem(value) {
+    let test = Object.assign({}, this);
+    Object.setPrototypeOf(test, this);
+
+    // If value is at root of Tree, delete  // Later modify to replace instead of delete
+    if (value === this.root.data) {
+      this.root = null;
+    } else if (value < this.root.data) {
+      let left = this.root.left;
+      // If value is at left node, set left node to null
+      if (value === left.data) {
+        this.root.left = null;
       } else {
-        test.root = this.root.left;
-        test.insert(value);
+        test.root = left;
+        test.deleteItem(value);
       }
     } else if (value > this.root.data) {
-      if (!this.root.right) {
-        this.root.right = new Node(value);
+      let right = this.root.right;
+      // If value is at right node, set right node to null
+      if (value === right.data) {
+        this.root.right = null;
       } else {
-        test.root = this.root.right;
-        test.insert(value);
+        test.root = right;
+        test.deleteItem(value);
       }
     }
   }
 
-  // Delete the given value
-  deleteItem(value) {}
+  // Returns the node with the given value
+  find(value) {
+    console.log(this);
+    let test = Object.assign({}, this);
+    Object.setPrototypeOf(test, this);
+
+    if (value === test.root.data) {
+      console.log(value);
+      console.log(test.root);
+      return test.root;
+    }
+    if (value < test.root.data) {
+      test.root = test.root.left;
+      test.find(value);
+    } else if (value > test.root.data) {
+      test.root = test.root.right;
+      test.find(value);
+    }
+  }
+
+  levelOrder(callback) {}
 }
 
 // Visualize the binary search tree
@@ -73,7 +117,14 @@ prettyPrint(test.root);
 test.insert(60);
 test.insert(80);
 test.insert(2);
-// console.log(JSON.stringify(test));
-prettyPrint(test.root);
+// prettyPrint(test.root);
 test.insert(2);
 prettyPrint(test.root);
+// test.deleteItem(9);
+// prettyPrint(test.root);
+// console.log(test);
+
+// console.log(test.find(23));
+// console.log(test);
+// // console.log(JSON.stringify(test));
+// console.log(test.find(23));
