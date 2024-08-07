@@ -27,18 +27,19 @@ export class Tree {
 
   // Insert the given value
   insert(value) {
-    let test = Object.assign({}, this);
-    Object.setPrototypeOf(test, this);
+    let temp = Object.assign({}, this);
+    Object.setPrototypeOf(temp, this);
 
     if (this.root === null) {
       return new Node(value);
     }
+
     if (value < this.root.data) {
-      test.root = this.root.left;
-      this.root.left = test.insert(value);
+      temp.root = this.root.left;
+      this.root.left = temp.insert(value);
     } else if (value > this.root.data) {
-      test.root = this.root.right;
-      this.root.right = test.insert(value);
+      temp.root = this.root.right;
+      this.root.right = temp.insert(value);
     }
 
     return this.root;
@@ -46,50 +47,62 @@ export class Tree {
 
   // Delete the given value
   deleteItem(value) {
-    let test = Object.assign({}, this);
-    Object.setPrototypeOf(test, this);
+    let temp = Object.assign({}, this);
+    Object.setPrototypeOf(temp, this);
 
-    // If value is at root of Tree, delete  // Later modify to replace instead of delete
-    if (value === this.root.data) {
-      this.root = null;
-    } else if (value < this.root.data) {
-      let left = this.root.left;
-      // If value is at left node, set left node to null
-      if (value === left.data) {
-        this.root.left = null;
-      } else {
-        test.root = left;
-        test.deleteItem(value);
-      }
-    } else if (value > this.root.data) {
-      let right = this.root.right;
-      // If value is at right node, set right node to null
-      if (value === right.data) {
-        this.root.right = null;
-      } else {
-        test.root = right;
-        test.deleteItem(value);
-      }
+    if (this.root === null) {
+      return this.root;
     }
+
+    if (value === this.root.data) {
+      // If node has 0 or 1 children, replace with child (null if 0 children)
+      if (this.root.left === null) {
+        return this.root.right;
+      }
+      if (this.root.right === null) {
+        return this.root.left;
+      }
+
+      // When node has two children
+      // Find in order successor
+      let next = this.root.right;
+      while (next.left) {
+        next = next.left;
+      }
+      // Replace the node to be deleted with successor and delete successor duplicate
+      this.root.data = next.data;
+      temp.root = this.root.right;
+      this.root.right = temp.deleteItem(next.data);
+    }
+
+    if (value < this.root.data) {
+      temp.root = this.root.left;
+      this.root.left = temp.deleteItem(value);
+    } else if (value > this.root.data) {
+      temp.root = this.root.right;
+      this.root.right = temp.deleteItem(value);
+    }
+
+    return this.root;
   }
 
   // Returns the node with the given value
   find(value) {
     console.log(this);
-    let test = Object.assign({}, this);
-    Object.setPrototypeOf(test, this);
+    let temp = Object.assign({}, this);
+    Object.setPrototypeOf(temp, this);
 
-    if (value === test.root.data) {
+    if (value === temp.root.data) {
       console.log(value);
-      console.log(test.root);
-      return test.root;
+      console.log(temp.root);
+      return temp.root;
     }
-    if (value < test.root.data) {
-      test.root = test.root.left;
-      test.find(value);
-    } else if (value > test.root.data) {
-      test.root = test.root.right;
-      test.find(value);
+    if (value < temp.root.data) {
+      temp.root = temp.root.left;
+      temp.find(value);
+    } else if (value > temp.root.data) {
+      temp.root = temp.root.right;
+      temp.find(value);
     }
   }
 
@@ -112,19 +125,31 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 // let test = new Tree([1, 2, 3]);
 let test = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(test.root);
+// prettyPrint(test.root);
 // console.log(test);
 test.insert(60);
 test.insert(80);
 test.insert(2);
 // prettyPrint(test.root);
 test.insert(2);
-prettyPrint(test.root);
-// test.deleteItem(9);
 // prettyPrint(test.root);
+test.deleteItem(9);
+
+test.deleteItem(9);
+test.deleteItem(7);
+test.deleteItem(2);
+test.deleteItem(6345);
+prettyPrint(test.root);
+
+test.deleteItem(67);
+
+prettyPrint(test.root);
+test.deleteItem(8);
+prettyPrint(test.root);
+
 // console.log(test);
 
 // console.log(test.find(23));
 // console.log(test);
-// // console.log(JSON.stringify(test));
+console.log(JSON.stringify(test));
 // console.log(test.find(23));
