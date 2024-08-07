@@ -88,29 +88,30 @@ export class Tree {
 
   // Returns the node with the given value
   find(value) {
-    console.log(this);
     let temp = Object.assign({}, this);
     Object.setPrototypeOf(temp, this);
 
-    if (value === temp.root.data) {
-      console.log(value);
-      console.log(temp.root);
-      return temp.root;
+    // console.log(temp.root.data);
+    if (this.root === null) {
+      return null;
     }
-    if (value < temp.root.data) {
-      temp.root = temp.root.left;
-      temp.find(value);
-    } else if (value > temp.root.data) {
-      temp.root = temp.root.right;
-      temp.find(value);
+
+    if (value < this.root.data) {
+      temp.root = this.root.left;
+      return temp.find(value);
+    } else if (value > this.root.data) {
+      temp.root = this.root.right;
+      return temp.find(value);
     }
+
+    return this.root;
   }
 
   levelOrder(callback) {}
 }
 
 // Visualize the binary search tree
-const prettyPrint = (node, prefix = '', isLeft = true) => {
+export const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
   }
@@ -122,34 +123,3 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
   }
 };
-
-// let test = new Tree([1, 2, 3]);
-let test = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-// prettyPrint(test.root);
-// console.log(test);
-test.insert(60);
-test.insert(80);
-test.insert(2);
-// prettyPrint(test.root);
-test.insert(2);
-// prettyPrint(test.root);
-test.deleteItem(9);
-
-test.deleteItem(9);
-test.deleteItem(7);
-test.deleteItem(2);
-test.deleteItem(6345);
-prettyPrint(test.root);
-
-test.deleteItem(67);
-
-prettyPrint(test.root);
-test.deleteItem(8);
-prettyPrint(test.root);
-
-// console.log(test);
-
-// console.log(test.find(23));
-// console.log(test);
-console.log(JSON.stringify(test));
-// console.log(test.find(23));
