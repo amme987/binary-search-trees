@@ -91,7 +91,6 @@ export class Tree {
     let temp = Object.assign({}, this);
     Object.setPrototypeOf(temp, this);
 
-    // console.log(temp.root.data);
     if (this.root === null) {
       return null;
     }
@@ -107,7 +106,21 @@ export class Tree {
     return this.root;
   }
 
-  levelOrder(callback) {}
+  // Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet
+  // to traverse and to add new ones to the list
+  inOrder(callback, curr = this.root, queue = []) {
+    if (!callback) {
+      throw new Error('Callback needed');
+    }
+    if (curr) {
+      callback(curr);
+
+      this.inOrder(callback, curr.left, queue);
+      queue.push(curr.data);
+      this.inOrder(callback, curr.right, queue);
+    }
+    return queue;
+  }
 }
 
 // Visualize the binary search tree
