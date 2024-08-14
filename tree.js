@@ -132,6 +132,7 @@ export class Tree {
     return result;
   }
 
+  // left -> root -> right
   inOrder(callback, curr = this.root, queue = []) {
     if (!callback) {
       throw new Error('Callback needed');
@@ -142,6 +143,36 @@ export class Tree {
       this.inOrder(callback, curr.left, queue);
       queue.push(curr.data);
       this.inOrder(callback, curr.right, queue);
+    }
+    return queue;
+  }
+
+  // root -> left -> right
+  preOrder(callback, curr = this.root, queue = []) {
+    if (!callback) {
+      throw new Error('Callback needed');
+    }
+    if (curr) {
+      callback(curr);
+
+      queue.push(curr.data);
+      this.preOrder(callback, curr.left, queue);
+      this.preOrder(callback, curr.right, queue);
+    }
+    return queue;
+  }
+
+  // left -> right -> root
+  postOrder(callback, curr = this.root, queue = []) {
+    if (!callback) {
+      throw new Error('Callback needed');
+    }
+    if (curr) {
+      callback(curr);
+
+      this.postOrder(callback, curr.left, queue);
+      this.postOrder(callback, curr.right, queue);
+      queue.push(curr.data);
     }
     return queue;
   }
