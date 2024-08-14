@@ -108,6 +108,30 @@ export class Tree {
 
   // Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet
   // to traverse and to add new ones to the list
+  levelOrder(callback) {
+    if (!callback) {
+      throw new Error('Callback needed');
+    }
+
+    let queue = [this.root];
+    let result = [];
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+      callback(node);
+      result.push(node.data);
+      if (node.left !== null) {
+        queue.push(node.left);
+      }
+
+      if (node.right !== null) {
+        queue.push(node.right);
+      }
+    }
+
+    return result;
+  }
+
   inOrder(callback, curr = this.root, queue = []) {
     if (!callback) {
       throw new Error('Callback needed');

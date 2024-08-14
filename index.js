@@ -35,8 +35,10 @@ console.log(test.find(90));
 // console.log(test.find(9));
 prettyPrint(test.root);
 console.log(test.inOrder(node => console.log(node.data)));
+
+console.log(test.levelOrder(node => console.log(node.data)));
 // prettyPrint(test.root);
 // console.log(test);
 // console.log(test);z
-// console.log(JSON.stringify(test));
+console.log(JSON.stringify(test));
 // console.log(test.find(23));
