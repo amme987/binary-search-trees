@@ -36,7 +36,10 @@ prettyPrint(test.root);
 
 // console.log(test.find(67));
 
-console.log(test.height(test.root));
-console.log(test.height(test.find(67)));
-console.log(test.height(test.find(3)));
-console.log(test.height(test.find(18)));
+// console.log(test.height(test.root));
+// console.log(test.height(test.find(67)));
+// console.log(test.height(test.find(3)));
+// console.log(test.height(test.find(18)));
+
+// console.log(test.depth(test.root));
+// console.log(test.depth(test.find(1)));

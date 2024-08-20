@@ -177,10 +177,10 @@ export class Tree {
     return queue;
   }
 
-  // Returns the given node's height
+  // Returns the given node's height. Height is defined as the number of edges in the longest path from a given node to a leaf node.
   height(node) {
     if (!node) {
-      return 0;
+      return -1;
     }
 
     let left = this.height(node.left);
@@ -190,6 +190,23 @@ export class Tree {
       return left + 1;
     } else {
       return right + 1;
+    }
+  }
+
+  // Returns the given node’s depth. Depth is defined as the number of edges in the path from a given node to the tree’s root node.
+  depth(node, temp = this.root) {
+    if (!node) {
+      return -1;
+    }
+
+    if (temp === node) {
+      return 0;
+    }
+
+    if (node.data < temp.data) {
+      return this.depth(node, temp.left) + 1;
+    } else {
+      return this.depth(node, temp.right) + 1;
     }
   }
 }
