@@ -26,84 +26,68 @@ export class Tree {
   }
 
   // Insert the given value
-  insert(value) {
-    let temp = Object.assign({}, this);
-    Object.setPrototypeOf(temp, this);
-
-    if (this.root === null) {
+  insert(value, temp = this.root) {
+    if (!temp) {
       return new Node(value);
     }
 
-    if (value < this.root.data) {
-      temp.root = this.root.left;
-      this.root.left = temp.insert(value);
-    } else if (value > this.root.data) {
-      temp.root = this.root.right;
-      this.root.right = temp.insert(value);
+    if (value < temp.data) {
+      temp.left = this.insert(value, temp.left);
+    } else if (value > temp.data) {
+      temp.right = this.insert(value, temp.right);
     }
 
-    return this.root;
+    return temp;
   }
 
   // Delete the given value
-  deleteItem(value) {
-    let temp = Object.assign({}, this);
-    Object.setPrototypeOf(temp, this);
-
-    if (this.root === null) {
-      return this.root;
+  deleteItem(value, temp = this.root) {
+    if (!temp) {
+      return temp;
     }
 
-    if (value === this.root.data) {
+    if (value === temp.data) {
       // If node has 0 or 1 children, replace with child (null if 0 children)
-      if (this.root.left === null) {
-        return this.root.right;
+      if (temp.left === null) {
+        return temp.right;
       }
-      if (this.root.right === null) {
-        return this.root.left;
+      if (temp.right === null) {
+        return temp.left;
       }
 
       // When node has two children
       // Find in order successor
-      let next = this.root.right;
+      let next = temp.right;
       while (next.left) {
         next = next.left;
       }
       // Replace the node to be deleted with successor and delete successor duplicate
-      this.root.data = next.data;
-      temp.root = this.root.right;
-      this.root.right = temp.deleteItem(next.data);
+      temp.data = next.data;
+      temp.right = this.deleteItem(next.data, temp.right);
     }
 
-    if (value < this.root.data) {
-      temp.root = this.root.left;
-      this.root.left = temp.deleteItem(value);
-    } else if (value > this.root.data) {
-      temp.root = this.root.right;
-      this.root.right = temp.deleteItem(value);
+    if (value < temp.data) {
+      temp.left = this.deleteItem(value, temp.left);
+    } else if (value > temp.data) {
+      temp.right = this.deleteItem(value, temp.right);
     }
 
-    return this.root;
+    return temp;
   }
 
   // Returns the node with the given value
-  find(value) {
-    let temp = Object.assign({}, this);
-    Object.setPrototypeOf(temp, this);
-
-    if (this.root === null) {
+  find(value, temp = this.root) {
+    if (!temp) {
       return null;
     }
 
-    if (value < this.root.data) {
-      temp.root = this.root.left;
-      return temp.find(value);
-    } else if (value > this.root.data) {
-      temp.root = this.root.right;
-      return temp.find(value);
+    if (value < temp.data) {
+      return this.find(value, temp.left);
+    } else if (value > temp.data) {
+      return this.find(value, temp.right);
     }
 
-    return this.root;
+    return temp;
   }
 
   // Tip: You will want to use an array acting as a queue to keep track of all the child nodes that you have yet
