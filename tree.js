@@ -209,6 +209,28 @@ export class Tree {
       return this.depth(node, temp.right) + 1;
     }
   }
+
+  // Function that checks if the tree is balanced. A balanced tree is one where the difference
+  // between heights of the left subtree and the right subtree of every node is not more than 1.
+  isBalanced(node = this.root) {
+    // If tree is empty, return true
+    if (!node) {
+      return true;
+    }
+
+    let left = this.height(node.left);
+    let right = this.height(node.right);
+
+    if (
+      Math.abs(left - right) <= 1 &&
+      this.isBalanced(node.left) === true &&
+      this.isBalanced(node.right) === true
+    ) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 // Visualize the binary search tree

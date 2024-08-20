@@ -3,9 +3,9 @@ import { Tree, prettyPrint } from './tree.js';
 // let test = new Tree([1, 2, 3]);
 let test = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-// test.insert(60);
-// test.insert(80);
-// test.insert(2);
+test.insert(60);
+test.insert(80);
+test.insert(2);
 
 // test.insert(2);
 // test.deleteItem(9);
@@ -43,3 +43,5 @@ prettyPrint(test.root);
 
 // console.log(test.depth(test.root));
 // console.log(test.depth(test.find(1)));
+
+console.log(test.isBalanced());
