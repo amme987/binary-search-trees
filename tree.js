@@ -176,6 +176,22 @@ export class Tree {
     }
     return queue;
   }
+
+  // Returns the given node's height
+  height(node) {
+    if (!node) {
+      return 0;
+    }
+
+    let left = this.height(node.left);
+    let right = this.height(node.right);
+
+    if (left > right) {
+      return left + 1;
+    } else {
+      return right + 1;
+    }
+  }
 }
 
 // Visualize the binary search tree
