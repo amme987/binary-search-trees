@@ -3,6 +3,7 @@ import { Tree, prettyPrint } from './tree.js';
 // let test = new Tree([1, 2, 3]);
 let test = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
+prettyPrint(test.root);
 test.insert(60);
 test.insert(80);
 test.insert(2);
@@ -44,4 +45,10 @@ prettyPrint(test.root);
 // console.log(test.depth(test.root));
 // console.log(test.depth(test.find(1)));
 
+// console.log(test.inOrder(node => console.log(node.data)));
+
+// console.log(test.isBalanced());
+
+test.rebalance();
+prettyPrint(test.root);
 console.log(test.isBalanced());

@@ -231,6 +231,11 @@ export class Tree {
 
     return false;
   }
+
+  // Function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
+  rebalance() {
+    this.root = this.buildTree(this.inOrder(() => {}));
+  }
 }
 
 // Visualize the binary search tree
